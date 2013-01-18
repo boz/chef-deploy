@@ -6,3 +6,5 @@
 # 
 # All rights reserved - Do Not Redistribute
 #
+require_recipe "deploy::user-base"
+require_recipe "deploy::user-ruby"

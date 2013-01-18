@@ -1,4 +1,4 @@
-# bootstrap cookbook
+# deploy cookbook
 
 # Requirements
 

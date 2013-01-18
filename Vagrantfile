@@ -52,11 +52,20 @@ Vagrant::Config.run do |config|
       :deploy => {
         :ssh_keys => [
           File.read(File.expand_path("~/.ssh/id_rsa.pub"))
-        ]
+        ],
+        :databases => {
+          :testdb => {
+            :username => "testdbuser",
+            :password => "testdbpass"
+          }
+        },
+      },
+      :postgresql => {
+        :password => { :postgres => "TESTONLY" }
       }
     }
     chef.run_list = [
-      "recipe[bootstrap::default]"
+      "recipe[deploy::db-master]"
     ]
   end
 end
