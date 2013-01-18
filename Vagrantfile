@@ -18,8 +18,7 @@ Vagrant::Config.run do |config|
 
   config.vm.host_name = "bootstrap-berkshelf"
 
-  config.vm.box = "Berkshelf-CentOS-6.3-x86_64-minimal"
-  config.vm.box_url = "https://dl.dropbox.com/u/31081437/Berkshelf-CentOS-6.3-x86_64-minimal.box"
+  config.vm.box = "quantal"
 
   # Boot with a GUI so you can see the screen. (Default is headless)
   # config.vm.boot_mode = :gui
@@ -50,13 +49,12 @@ Vagrant::Config.run do |config|
 
   config.vm.provision :chef_solo do |chef|
     chef.json = {
-      :mysql => {
-        :server_root_password => 'rootpass',
-        :server_debian_password => 'debpass',
-        :server_repl_password => 'replpass'
+      :deploy => {
+        :ssh_keys => [
+          File.read(File.expand_path("~/.ssh/id_rsa.pub"))
+        ]
       }
     }
-
     chef.run_list = [
       "recipe[bootstrap::default]"
     ]
