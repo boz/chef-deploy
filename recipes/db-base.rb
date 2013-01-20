@@ -9,7 +9,7 @@
 
 include_recipe "build-essential"
 
-package "ruby1.9.1-dev" do
+package "ruby-dev" do
   action :nothing
 end.run_action(:install)
 

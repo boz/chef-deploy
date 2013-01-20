@@ -56,17 +56,28 @@ Vagrant::Config.run do |config|
         ],
         :databases => {
           :testdb => {
+            :host     => "localhost",
             :username => "testdbuser",
             :password => "testdbpass"
           }
         },
+        :applications => [{
+          :name     => "accountly"      ,
+          :database => :testdb          ,
+          :port     => 8080             ,
+          :hosts    => ["localhost"]    ,
+          :vhosts   => ["account.ly", "*.account.ly"] ,
+          :repository => "git@github.com:boz/accountly.git",
+          :deploy_key => File.read(File.expand_path("~/.ssh/id_dsa")),
+        }],
       },
       :postgresql => {
         :password => { :postgres => "TESTONLY" }
       }
     }
     chef.run_list = [
-      "recipe[deploy::db-master]"
+      "recipe[deploy::db-master]",
+      "recipe[deploy::app-rails]"
     ]
   end
 end
