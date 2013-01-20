@@ -18,7 +18,8 @@ Vagrant::Config.run do |config|
 
   config.vm.host_name = "bootstrap-berkshelf"
 
-  config.vm.box = "quantal"
+  config.vm.box     = "roderik-quantal64"
+  config.vm.box_url = "https://github.com/downloads/roderik/VagrantQuantal64Box/quantal64.box"
 
   # Boot with a GUI so you can see the screen. (Default is headless)
   # config.vm.boot_mode = :gui
