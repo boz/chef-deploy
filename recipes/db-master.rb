@@ -15,13 +15,42 @@ node.deploy.databases.each do |db_name,db|
     :type   => 'host',
     :db     => db_name,
     :user   => db[:username],
-    :addr   => nil,
+    :addr   => "127.0.0.1/32",
     :method => 'md5',
   })
 end
 
 include_recipe "postgresql::server"
 include_recipe "database"
+
+directory ::File.dirname(node.deploy.postgresql.data_directory) do
+  mode  "0755"
+  owner 'postgres'
+  group 'postgres'
+  recursive true
+end
+
+execute "postgresql-move-data-directory" do
+  user  "postgres"
+  group "postgres"
+  action :nothing
+  command %{
+    mv    "#{node.postgresql.config.data_directory}" "#{node.deploy.postgresql.data_directory}" &&
+    ln -s "#{node.deploy.postgresql.data_directory}" "#{node.postgresql.config.data_directory}"
+  }
+  notifies :start, resources("service[postgresql]"), :immediately
+end
+
+ruby_block "postgresql-stop-for-move-data-directory" do
+  not_if do
+    ::File.exists?(::File.join(node.deploy.postgresql.data_directory,"PG_VERSION"))
+  end
+  block do
+    # no-op
+  end
+  notifies :stop, resources("service[postgresql]"), :immediately
+  notifies :run , resources("execute[postgresql-move-data-directory]"), :immediately
+end
 
 pg_conn = {
   :host     => "localhost" ,

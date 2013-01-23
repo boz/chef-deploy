@@ -4,6 +4,8 @@ node.override.build_essential.compiletime = true
 node.default.deploy.ssh_keys = []
 node.default.deploy.username = 'deploy'
 
+node.default.deploy.postgresql.data_directory = "/db/postgresql/main"
+
 node.default.deploy.base_gems = [
   { 'name' => "bundler" },
   { 'name' => 'rubygems-bundler', 'action' => 'remove' },
