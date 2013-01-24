@@ -76,7 +76,8 @@ Vagrant::Config.run do |config|
       }
     }
     chef.run_list = [
-      "recipe[deploy::db-master]",
+    # "recipe[deploy::db-master]",
+      "recipe[deploy::redis-server]"
     # "recipe[deploy::app-rails]"
     ]
   end

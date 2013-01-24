@@ -15,3 +15,8 @@ node.default.deploy.gems = [
   { 'name' => 'pg'   , :version => '~> 0.14.1' },
   { 'name' => 'rails', :version => '~> 3.2.11' },
 ]
+
+node.default.redis.confdir = "/etc/redis"
+node.default.redis.datadir = "/db/redis/main"
+node.default.redis.user    = "redis"
+node.default.redis.group   = "redis"

@@ -12,6 +12,7 @@ recipe "deploy::user-bootstrap", "Prepare a clean AMI"
 recipe "deploy::db-base", "Database libraries"
 recipe "deploy::db-master", "Install and configure master database"
 recipe "deploy::app-rails", "Deploy rails application"
+recipe "deploy::redis-server", "Install and configure redis-server"
 
 depends "build-essential", "~> 1.3.2"
 depends "postgresql", "~> 2.1.0"
