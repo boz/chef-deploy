@@ -23,3 +23,8 @@ cookbook_file "/etc/profile.d/editor.sh" do
   source "editor.sh"
   mode 00755
 end
+
+cookbook_file "/etc/gemrc" do
+  source "gemrc"
+  mode 00644
+end

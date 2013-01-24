@@ -1,17 +1,19 @@
-upstream <%= @resource.application.name %> {
-  <% @resource.hosts.each do |host| %>
-    server <%= host %>:<%= @resource.application_port %>;
+upstream <%= @name %> {
+  <% @hosts.each do |host| %>
+    server <%= host %>:<%= @application_port %>;
   <% end %>
 }
 
 server {
-  listen <%= @resource.port %>;
-  server_name <%= @resource.vhosts.join(' ') %>;
+  listen <%= @port %>;
+  server_name <%= @vhosts.join(' ') %>;
 
-  root <%= ::File.join(@resource.application.path, "current", "public" ) %>;
+  <% if @directory %>
+    root <%= @directory %>;
+  <% end %>
 
-  access_log <%= "/var/log/nginx/#{@resource.application.name}.access.log" %>;
-  error_log  <%= "/var/log/nginx/#{@resource.application.name}.info.log"   %> info;
+  access_log <%= "/var/log/nginx/#{@name}.access.log" %>;
+  error_log  <%= "/var/log/nginx/#{@name}.info.log"   %> info;
 
   location / {
     proxy_set_header X-Real-IP  $remote_addr;
@@ -22,7 +24,7 @@ server {
       break;
     }
     if (!-f $request_filename) {
-      proxy_pass http://<%= @resource.application.name %>;
+      proxy_pass http://<%= @name %>;
       break;
     }
   }

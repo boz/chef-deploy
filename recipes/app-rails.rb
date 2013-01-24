@@ -1,12 +1,12 @@
-
-node.nginx.package_name   = "nginx-full"
-node.nginx.install_method = "package"
-
-require_recipe "git"
-require_recipe "deploy::db-base"
+require_recipe "deploy::app-base"
+package  "ruby-dev"
+package  "postgresql-client"
 chef_gem "bundler"
+require_recipe "unicorn"
 
 node.deploy.applications.each do |app|
+
+  next unless app[:type] == "rails"
 
   application app[:name] do
     path "/data/apps/#{app[:name]}"
@@ -14,6 +14,7 @@ node.deploy.applications.each do |app|
     group node.deploy.username
     repository app[:repository]
     deploy_key app[:deploy_key]
+
     migrate true
 
     db = node.deploy.databases[app[:database]]
@@ -31,13 +32,12 @@ node.deploy.applications.each do |app|
       end
     end
 
-    deploy_service do
-      port app[:port]
+    deploy_app_rails do
+      user   node.deploy.username
+      vhosts app[:vhosts]
+      port   app[:port]
     end
 
-    deploy_nginx do
-      vhosts app[:vhosts]
-      application_port app[:port]
-    end
+    action :force_deploy
   end
 end

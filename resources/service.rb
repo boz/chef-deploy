@@ -1,6 +1,10 @@
-include Chef::Resource::ApplicationBase
-attribute :port, :kind_of => [Integer,String]
-attribute :worker_timeout, :kind_of => Integer, :default => 60
-attribute :preload_app, :kind_of => [TrueClass, FalseClass], :default => false
-attribute :worker_processes, :kind_of => Integer, :default => [node['cpu']['total'].to_i * 4, 8].min
-attribute :before_fork, :kind_of => String, :default => 'sleep 1'
+actions :enable, :start, :stop, :restart
+default_action :enable
+
+attribute :name        , :kind_of => String
+attribute :user        , :kind_of => String
+attribute :directory   , :kind_of => String, :default => "/"
+attribute :command     , :kind_of => String
+attribute :arguments   , :kind_of => Array, :default => []
+attribute :environment , :kind_of => Hash , :default => {}
+

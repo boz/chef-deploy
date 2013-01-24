@@ -56,19 +56,26 @@ Vagrant::Config.run do |config|
         ],
         :databases => {
           :testdb => {
-            :host     => "localhost",
+            :host     => "localhost" ,
             :username => "testdbuser",
             :password => "testdbpass"
           }
         },
         :applications => [{
-          :name     => "accountly"      ,
-          :database => :testdb          ,
-          :port     => 8080             ,
-          :hosts    => ["localhost"]    ,
-          :vhosts   => ["account.ly", "*.account.ly"] ,
-          :repository => "git@github.com:boz/accountly.git",
-          :deploy_key => File.read(File.expand_path("~/.ssh/id_dsa")),
+          :type     => "rails"             ,
+          :name     => "chef-deploy-rails" ,
+          :database => :testdb             ,
+          :port     => 8080                ,
+          :hosts    => ["localhost"]       ,
+          :vhosts   => ["chef-deploy-rails.com", "*.chef-deploy-rails.com"] ,
+          :repository => "git://github.com/boz/chef-deploy-webapp-rails-test.git",
+        },{
+          :type       => "nodejs"             ,
+          :name       => "chef-deploy-nodejs" ,
+          :port       => 9090                 ,
+          :hosts      => ["localhost"]        ,
+          :vhosts     => ["chef-deploy-nodejs.com", "*.chef-deploy-nodejs.com"] ,
+          :repository => "git://github.com/boz/chef-deploy-webapp-nodejs-test.git",
         }],
       },
       :postgresql => {
@@ -76,9 +83,10 @@ Vagrant::Config.run do |config|
       }
     }
     chef.run_list = [
-    # "recipe[deploy::db-master]",
-      "recipe[deploy::redis-server]"
-    # "recipe[deploy::app-rails]"
+      "recipe[deploy::db-master]"    ,
+      "recipe[deploy::redis-server]" ,
+      "recipe[deploy::app-rails]"    ,
+      "recipe[deploy::app-nodejs]"   ,
     ]
   end
 end

@@ -1,29 +1,40 @@
-include Chef::Mixin::LanguageIncludeRecipe
-
-action :before_compile do
-  include_recipe 'nginx'
-end
-
-action :before_deploy do
-  template "#{node['nginx']['dir']}/sites-available/#{new_resource.application.name}.conf" do
+action :install do
+  service 'nginx' do
+    supports :status => true, :restart => true, :reload => true
+    action :nothing
+  end
+  template "#{node['nginx']['dir']}/sites-available/#{new_resource.name}.conf" do
     source   "nginx.conf.erb"
     cookbook "deploy"
     owner "root"
     group "root"
-    mode "644"
-    variables :resource => new_resource, :vhosts => new_resource.vhosts
+    mode  "644"
+    variables({
+      :name             => new_resource.name             ,
+      :vhosts           => new_resource.vhosts           ,
+      :hosts            => new_resource.hosts            ,
+      :directory        => new_resource.directory        ,
+      :port             => new_resource.port             ,
+      :application_port => new_resource.application_port ,
+    })
     notifies :reload, resources(:service => 'nginx')
   end
-  nginx_site "#{new_resource.application.name}.conf"
-  nginx_site "default" do
-    enable false
+end
+
+action :enable do
+  service 'nginx' do
+    supports :status => true, :restart => true, :reload => true
+    action :nothing
   end
+  nginx_site "#{new_resource.name}.conf"
 end
-action :before_migrate do
-end
-action :before_symlink do
-end
-action :before_restart do
-end
-action :after_restart do
+
+action :disable do
+  service 'nginx' do
+    supports :status => true, :restart => true, :reload => true
+    action :nothing
+  end
+  nginx_site "#{new_resource.name}.conf" do
+    action :disable
+  end
 end

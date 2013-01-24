@@ -1,0 +1,36 @@
+#!upstart
+
+env USER=<%= @user %>
+env LOGFILE=/var/log/<%= @name %>.log
+
+<% for k,v in @environment %>
+  env <%= "#{k}=#{v}" %>
+<% end %>
+
+start on startup
+stop  on shutdown
+
+script
+
+  exec 2>&1
+
+  exec start-stop-daemon                 \
+    --start                              \
+    --chuid <%= @user %>                 \
+    --chdir <%= @directory %>            \
+    --make-pidfile                       \
+    --pidfile /var/run/<%= @name %>.pid  \
+    --exec <%= @command %>               \
+    -- <%= @arguments.join(' ') %>       \
+    >> $LOGFILE
+
+end script
+
+pre-start script
+  echo "[`date`] (sys) Starting..." >> $LOGFILE
+end script
+
+pre-start script
+  echo "[`date`] (sys) Stopping..." >> $LOGFILE
+end script
+
