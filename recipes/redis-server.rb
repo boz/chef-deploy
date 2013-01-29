@@ -1,4 +1,5 @@
 include_recipe "deploy::user-base"
+require_recipe 'deploy::monit'
 
 package "redis-server" do
   action :install
@@ -30,3 +31,8 @@ template config_file do
   variables :redis => node[:redis]
   notifies :restart, resources(:deploy_service => "redis")
 end
+
+deploy_monit "redis" do
+  source "redis.monitrc.erb"
+end
+

@@ -26,6 +26,10 @@ end
 action :before_symlink do
 end
 action :before_restart do
+  deploy_monit new_resource.application.name do
+    action :unmonitor
+    ignore_failure true
+  end
   deploy_service new_resource.application.name do
     user new_resource.user
     directory  ::File.join(new_resource.application.path,"current")
@@ -39,5 +43,9 @@ end
 action :after_restart do
   deploy_nginx new_resource.application.name do
     action :enable
+  end
+  deploy_monit new_resource.application.name do
+    source  "nodejs.monitrc.erb"
+    action [:install,:monitor]
   end
 end

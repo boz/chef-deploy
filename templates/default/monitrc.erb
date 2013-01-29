@@ -1,0 +1,42 @@
+set daemon <%= @monit[:period] %>
+set logfile   /var/log/monit.log
+set idfile    /var/lib/monit/id
+set statefile /var/lib/monit/state
+
+<% if @monit[:mailserver] %>
+  set mailserver <%= @monit[:mailserver][:host] %>
+  <% if @monit[:mailserver][:port] %>
+    with port <%= @monit[:mailserver][:port] %>
+  <% end %>
+  <% if @monit[:mailserver][:username] %>
+    username <%= @monit[:mailserver][:username] %>
+    <% if @monit[:mailserver][:password] %>
+      with password <%= @monit[:mailserver][:password] %>
+    <% end %>
+  <% end %>
+  <% if @monit[:mailserver][:using] %>
+    using <%= @monit[:mailserver][:using] %>
+  <% end %>
+  <% if @monit[:mailserver][:timeout] %>
+    with timeout <%= @monit[:mailserver][:timeout] %> seconds
+  <% end %>
+<% end %>
+
+set eventqueue
+    basedir /var/lib/monit/events
+    slots 100
+
+<% if @monit[:from] %>
+  set mail-format { from: <%= @monit[:from] %> }
+<% end %>
+
+<% if @monit[:email] %>
+  set alert <%= @monit[:email] %> not { instance action }
+<% end %>
+
+set httpd port 2812 and
+   use address 127.0.0.1 # only accept connection from localhost
+   allow localhost
+
+include /etc/monit/monitrc.d/*
+include /etc/monit/conf.d/*

@@ -18,6 +18,10 @@ end
 action :before_symlink do
 end
 action :before_restart do
+  deploy_monit new_resource.application.name do
+    action :unmonitor
+    ignore_failure true
+  end
   deploy_unicorn new_resource.application.name do
     user        new_resource.user
     port        new_resource.port
@@ -28,5 +32,9 @@ end
 action :after_restart do
   deploy_nginx new_resource.application.name do
     action :enable
+  end
+  deploy_monit new_resource.application.name do
+    source  "unicorn.monitrc.erb"
+    action [:install,:monitor]
   end
 end

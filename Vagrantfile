@@ -78,15 +78,32 @@ Vagrant::Config.run do |config|
           :repository => "git://github.com/boz/chef-deploy-webapp-nodejs-test.git",
         }],
       },
+      :monit => {
+        :mailserver => {
+          :username => "system@boz.sh",
+          :password => ENV['SYSTEM_EMAIL_PASSWORD'],
+        },
+        :email => "notifications@boz.sh",
+        :from  => "system@boz.sh",
+        :filesystems => {
+          "quantal64-root" => {
+            :path => "/",
+          },
+          "sda1" => {
+            :path => "/boot",
+          },
+        }
+      },
       :postgresql => {
         :password => { :postgres => "TESTONLY" }
       }
     }
     chef.run_list = [
-      "recipe[deploy::db-master]"    ,
-      "recipe[deploy::redis-server]" ,
-      "recipe[deploy::app-rails]"    ,
-      "recipe[deploy::app-nodejs]"   ,
+     "recipe[deploy::monit]"         ,
+    #"recipe[deploy::db-master]"     ,
+    #"recipe[deploy::redis-server]"  ,
+    #"recipe[deploy::app-rails]"     ,
+    #"recipe[deploy::app-nodejs]"    ,
     ]
   end
 end

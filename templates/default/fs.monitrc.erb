@@ -1,0 +1,5 @@
+check device <%= @device %> with path <%= @path %>
+  if space usage > <%= @spacemax %> then alert
+  if inode usage > <%= @inodemax %> then alert
+  group filesystem
+  group system

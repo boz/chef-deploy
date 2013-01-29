@@ -1,0 +1,7 @@
+check process <%= @name %>
+  with pidfile <%= @pidfile %>
+  start program = "/sbin/initctl start <%= @name %>"
+  stop  program = "/sbin/initctl stop  <%= @name %>"
+  if cpu usage > 95% for 3 cycles then restart
+  if totalmem  > 256 Mb then alert
+  if totalmem  > 384 Mb then restart

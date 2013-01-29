@@ -8,6 +8,7 @@ action :install do
     worker_processes  my.worker_processes
     before_fork       my.before_fork
   end
+
   deploy_service my.name do
     user      my.user
     directory my.directory
