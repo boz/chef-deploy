@@ -85,14 +85,6 @@ Vagrant::Config.run do |config|
         },
         :email => "notifications@boz.sh",
         :from  => "system@boz.sh",
-        :filesystems => {
-          "quantal64-root" => {
-            :path => "/",
-          },
-          "sda1" => {
-            :path => "/boot",
-          },
-        }
       },
       :postgresql => {
         :password => { :postgres => "TESTONLY" }
