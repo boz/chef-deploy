@@ -18,6 +18,16 @@ node.deploy.applications.each do |app|
       file "http.json"
       variables({"port" => app[:port]})
     end
+    deploy_config do
+      file "http.json"
+      variables({"port" => app[:port]})
+    end
+    if db_name = app[:database]
+      deploy_config do
+        file "#{db_name}.json"
+        variables(node.deploy.databases[db_name].to_hash)
+      end
+    end
     action :force_deploy
   end
 end

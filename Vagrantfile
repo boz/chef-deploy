@@ -59,6 +59,10 @@ Vagrant::Config.run do |config|
             :host     => "localhost" ,
             :username => "testdbuser",
             :password => "testdbpass"
+          },
+          :redis => {
+            :host => "localhost",
+            :port => 6379
           }
         },
         :applications => [{
@@ -76,6 +80,7 @@ Vagrant::Config.run do |config|
           :hosts      => ["localhost"]        ,
           :vhosts     => ["chef-deploy-nodejs.com", "*.chef-deploy-nodejs.com"] ,
           :repository => "git://github.com/boz/chef-deploy-webapp-nodejs-test.git",
+          :database   => :redis
         }],
       },
       :monit => {
@@ -93,7 +98,7 @@ Vagrant::Config.run do |config|
     chef.run_list = [
   #  "recipe[deploy::monit]"         ,
   #  "recipe[deploy::db-master]"     ,
-  #  "recipe[deploy::redis-server]"  ,
+     "recipe[deploy::redis-server]"  ,
   #  "recipe[deploy::app-rails]"     ,
      "recipe[deploy::app-nodejs]"    ,
     ]
