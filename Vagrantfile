@@ -91,10 +91,10 @@ Vagrant::Config.run do |config|
       }
     }
     chef.run_list = [
-     "recipe[deploy::monit]"         ,
-     "recipe[deploy::db-master]"     ,
-     "recipe[deploy::redis-server]"  ,
-     "recipe[deploy::app-rails]"     ,
+  #  "recipe[deploy::monit]"         ,
+  #  "recipe[deploy::db-master]"     ,
+  #  "recipe[deploy::redis-server]"  ,
+  #  "recipe[deploy::app-rails]"     ,
      "recipe[deploy::app-nodejs]"    ,
     ]
   end

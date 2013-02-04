@@ -14,6 +14,10 @@ node.deploy.applications.each do |app|
       vhosts app[:vhosts]
       port   app[:port]
     end
+    deploy_config do
+      file "http.json"
+      variables({"port" => app[:port]})
+    end
     action :force_deploy
   end
 end
