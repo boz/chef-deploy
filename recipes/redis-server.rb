@@ -1,4 +1,4 @@
-include_recipe "deploy::user-base"
+include_recipe "deploy-user"
 require_recipe 'deploy::monit'
 
 package "redis-server" do

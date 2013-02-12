@@ -8,7 +8,7 @@
 #
 
 include_recipe "deploy::db-base"
-include_recipe "deploy::user-base"
+include_recipe "deploy-user"
 
 node.deploy.databases.each do |db_name,db|
   node.postgresql.pg_hba.push({

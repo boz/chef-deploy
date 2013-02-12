@@ -1,4 +1,4 @@
-require_recipe "deploy::user-base"
+require_recipe "deploy-user"
 require_recipe "git"
 
 node.nginx.package_name   = "nginx-full"
