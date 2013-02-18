@@ -24,7 +24,7 @@ node.deploy.applications.each do |app|
       bundler true
       precompile_assets true
       database do
-        adapter  'postgresql'
+        adapter  db[:adapter]
         host     db[:host]
         database app[:database]
         username db[:username]

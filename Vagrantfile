@@ -56,6 +56,7 @@ Vagrant::Config.run do |config|
         ],
         :databases => {
           :testdb => {
+            :adapter  => "postgresql",
             :host     => "localhost" ,
             :username => "testdbuser",
             :password => "testdbpass"
@@ -96,10 +97,10 @@ Vagrant::Config.run do |config|
       }
     }
     chef.run_list = [
-  #  "recipe[deploy::monit]"         ,
-  #  "recipe[deploy::db-master]"     ,
+     "recipe[deploy::monit]"         ,
+     "recipe[deploy::db-master]"     ,
      "recipe[deploy::redis-server]"  ,
-  #  "recipe[deploy::app-rails]"     ,
+     "recipe[deploy::app-rails]"     ,
      "recipe[deploy::app-nodejs]"    ,
     ]
   end

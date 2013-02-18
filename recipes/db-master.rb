@@ -11,6 +11,7 @@ include_recipe "deploy::db-base"
 include_recipe "deploy-user"
 
 node.deploy.databases.each do |db_name,db|
+  next unless db[:adapter] == 'postgresql'
   node.postgresql.pg_hba.push({
     :type   => 'host',
     :db     => db_name,
@@ -59,6 +60,7 @@ pg_conn = {
 }
 
 node.deploy.databases.each do |db_name,db|
+  next unless db[:adapter] == 'postgresql'
   postgresql_database_user db[:username] do
     connection pg_conn
     password   db[:password]
