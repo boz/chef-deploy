@@ -4,28 +4,69 @@ upstream <%= @name %> {
   <% end %>
 }
 
-server {
-  listen <%= @port %>;
-  server_name <%= @vhosts.join(' ') %>;
+<% for vhost in @vhosts %>
+  server {
+    listen <%= @port %>;
+    server_name <%= vhost[:hosts].join(' ') %>;
 
-  <% if @directory %>
-    root <%= @directory %>;
-  <% end %>
+    <% if @directory %>
+      root <%= @directory %>;
+    <% end %>
 
-  access_log <%= "/var/log/nginx/#{@name}.access.log" %>;
-  error_log  <%= "/var/log/nginx/#{@name}.info.log"   %> info;
+    access_log <%= "/var/log/nginx/#{@name}.access.log" %>;
+    error_log  <%= "/var/log/nginx/#{@name}.info.log"   %> info;
 
-  location / {
-    proxy_set_header X-Real-IP  $remote_addr;
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    proxy_set_header Host $http_host;
-    proxy_redirect   off;
-    if (-f $request_filename) {
-      break;
-    }
-    if (!-f $request_filename) {
-      proxy_pass http://<%= @name %>;
-      break;
+    location / {
+      proxy_set_header X-Real-IP  $remote_addr;
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      proxy_set_header Host $http_host;
+      proxy_redirect   off;
+      if (-f $request_filename) {
+        break;
+      }
+      if (!-f $request_filename) {
+        proxy_pass http://<%= @name %>;
+        break;
+      }
     }
   }
-}
+
+  <% if vhost[:cert] %>
+    server {
+      listen <%= @sslport %>;
+      server_name <%= vhost[:hosts].join(' ') %>;
+
+      <% if @directory %>
+        root <%= @directory %>;
+      <% end %>
+
+      access_log <%= "/var/log/nginx/#{@name}.access.log" %>;
+      error_log  <%= "/var/log/nginx/#{@name}.info.log"   %> info;
+
+      ssl on;
+
+      ssl_certificate     /etc/ssl/certs/<%= vhost[:cert] %>.crt;
+      ssl_certificate_key /etc/ssl/private/<%= vhost[:cert] %>.key;
+
+      ssl_session_timeout  5m;
+      ssl_protocols  SSLv2 SSLv3 TLSv1;
+      ssl_ciphers  ALL:!ADH:!EXPORT56:RC4+RSA:+HIGH:+MEDIUM:+LOW:+SSLv2:+EXP;
+      ssl_prefer_server_ciphers   on;
+
+      location / {
+        proxy_set_header X-Real-IP  $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $http_host;
+        proxy_set_header X-Forwarded-Proto https;
+        proxy_redirect   off;
+        if (-f $request_filename) {
+          break;
+        }
+        if (!-f $request_filename) {
+          proxy_pass http://<%= @name %>;
+          break;
+        }
+      }
+    }
+  <% end %>
+<% end %>

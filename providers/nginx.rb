@@ -3,6 +3,11 @@ action :install do
     supports :status => true, :restart => true, :reload => true
     action :nothing
   end
+  group "ssl-cert" do
+    action :modify
+    append true
+    members "www-data"
+  end
   template "#{node['nginx']['dir']}/sites-available/#{new_resource.name}.conf" do
     source   "nginx.conf.erb"
     cookbook "deploy"
@@ -15,6 +20,7 @@ action :install do
       :hosts            => new_resource.hosts            ,
       :directory        => new_resource.directory        ,
       :port             => new_resource.port             ,
+      :sslport          => new_resource.sslport          ,
       :application_port => new_resource.application_port ,
     })
     notifies :reload, resources(:service => 'nginx')

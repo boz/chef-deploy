@@ -71,17 +71,32 @@ Vagrant.configure("2") do |config|
           :database => :testdb             ,
           :port     => 8080                ,
           :hosts    => ["localhost"]       ,
-          :vhosts   => ["chef-deploy-rails.com", "*.chef-deploy-rails.com"] ,
+          :vhosts   => [{
+            :hosts => ["chef-deploy-rails.com", "*.chef-deploy-rails.com"],
+            :cert  => "chef-deploy-rails.com" ,
+          }] ,
           :repository => "git://github.com/boz/chef-deploy-webapp-rails-test.git",
         },{
           :type       => "nodejs"             ,
           :name       => "chef-deploy-nodejs" ,
           :port       => 9090                 ,
           :hosts      => ["localhost"]        ,
-          :vhosts     => ["chef-deploy-nodejs.com", "*.chef-deploy-nodejs.com"] ,
+          :vhosts     => [{
+            :hosts => ["chef-deploy-nodejs.com", "*.chef-deploy-nodejs.com"],
+          }],
           :repository => "git://github.com/boz/chef-deploy-webapp-nodejs-test.git",
           :database   => :redis
         }],
+        :certificates => {
+          'chef-deploy-rails.com' => {
+            :crt => File.read("certs/chef-deploy-rails.com.crt"),
+            :key => File.read("certs/chef-deploy-rails.com.key"),
+          },
+          'chef-deploy-nodejs.com' => {
+            :crt => File.read("certs/chef-deploy-nodejs.com.crt"),
+            :key => File.read("certs/chef-deploy-nodejs.com.key"),
+          },
+        }
       },
       :monit => {
         :mailserver => {
