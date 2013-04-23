@@ -5,4 +5,4 @@ attribute :device   , :kind_of => String, :name_attribute => true
 attribute :path     , :kind_of => String
 attribute :spacemax , :kind_of => String, :default => '90%'
 attribute :inodemax , :kind_of => String, :default => '90%'
-
+attribute :cookbook , :kind_of => String, :default => "deploy"

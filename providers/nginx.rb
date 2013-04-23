@@ -10,7 +10,7 @@ action :install do
   end
   template "#{node['nginx']['dir']}/sites-available/#{new_resource.name}.conf" do
     source   "nginx.conf.erb"
-    cookbook "deploy"
+    cookbook new_resource.cookbook
     owner "root"
     group "root"
     mode  "644"

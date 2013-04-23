@@ -25,6 +25,7 @@ end
 
 template config_file do
   source "redis.conf.erb"
+  cookbook "deploy"
   owner "root"
   group "root"
   mode  "0644"

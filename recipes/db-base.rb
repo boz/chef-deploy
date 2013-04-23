@@ -7,7 +7,9 @@
 # All rights reserved - Do Not Redistribute
 #
 
-include_recipe "build-essential"
+package "build-essential" do
+  action :nothing
+end.run_action(:install)
 
 package "ruby-dev" do
   action :nothing

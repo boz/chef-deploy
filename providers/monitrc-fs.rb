@@ -5,6 +5,7 @@ action :create do
   end
   template "/etc/monit/conf.d/#{new_resource.device}.fs.conf" do
     source "fs.monitrc.erb"
+    cookbook new_resource.cookbook
     owner "root"
     group "root"
     mode  "0600"

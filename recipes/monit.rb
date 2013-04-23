@@ -7,6 +7,7 @@ end
 
 template "/etc/monit/monitrc" do
   source "monitrc.erb"
+  cookbook "deploy"
   owner "root"
   group "root"
   mode  "0600"
@@ -16,6 +17,7 @@ end
 
 template "/etc/monit/conf.d/system.conf" do
   source "system.monitrc.erb"
+  cookbook "deploy"
   owner "root"
   group "root"
   mode  "0600"

@@ -1,5 +1,6 @@
 action :enable do
   template "/etc/init/#{new_resource.name}.conf" do
+    cookbook new_resource.cookbook
     source "upstart.conf.erb"
     owner "root"
     group "root"

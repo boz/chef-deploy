@@ -7,3 +7,4 @@ attribute :sslport         , :kind_of => Integer, :default => 443
 attribute :hosts           , :kind_of => Array  , :default => ["localhost"]
 attribute :vhosts          , :kind_of => Array
 attribute :directory       , :kind_of => [String,NilClass]
+attribute :cookbook        , :kind_of => String, :default => "deploy"

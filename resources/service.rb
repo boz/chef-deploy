@@ -7,4 +7,4 @@ attribute :directory   , :kind_of => String, :default => "/"
 attribute :command     , :kind_of => String
 attribute :arguments   , :kind_of => Array, :default => []
 attribute :environment , :kind_of => Hash , :default => {}
-
+attribute :cookbook    , :kind_of => String, :default => "deploy"
