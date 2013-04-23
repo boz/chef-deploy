@@ -6,7 +6,8 @@ action :install do
 
   _pidfile = new_resource.pidfile || "/var/run/#{new_resource.name}.pid"
   template "/etc/monit/conf.d/#{new_resource.name}.conf" do
-    source new_resource.source
+    source   new_resource.source
+    cookbook new_resource.cookbook
     owner "root"
     group "root"
     mode  "0600"
