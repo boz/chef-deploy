@@ -10,7 +10,7 @@ end
 action :before_deploy do
 
   if new_resource.file.end_with?("yml")
-    data = new_resource.variables.to_yml
+    data = new_resource.variables.to_yaml
   elsif new_resource.file.end_with?("json")
     data = new_resource.variables.to_json
   end

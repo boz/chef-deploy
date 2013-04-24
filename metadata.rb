@@ -8,6 +8,7 @@ version          "0.1.0"
 
 recipe "deploy::db-base", "Database libraries"
 recipe "deploy::db-master", "Install and configure master database"
+recipe "deploy::app-rails-base", "Rails application base includes"
 recipe "deploy::app-rails", "Deploy rails application"
 recipe "deploy::redis-server", "Install and configure redis-server"
 recipe "deploy::nodejs-base" , "Install nodejs"
