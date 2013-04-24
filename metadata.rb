@@ -6,7 +6,6 @@ description      "Installs/Configures deploy user"
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          "0.1.0"
 
-recipe "deploy::user-ruby", "Install ruby and rvm"
 recipe "deploy::db-base", "Database libraries"
 recipe "deploy::db-master", "Install and configure master database"
 recipe "deploy::app-rails", "Deploy rails application"
@@ -15,7 +14,6 @@ recipe "deploy::nodejs-base" , "Install nodejs"
 
 depends "deploy-user","~> 0.1.0"
 
-depends "build-essential", "~> 1.3.2"
 depends "postgresql", "~> 2.1.0"
 depends "rvm", "~> 0.9.1"
 depends "database", "~> 1.3.10"
