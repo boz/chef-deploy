@@ -15,8 +15,8 @@ recipe "deploy::nodejs-base" , "Install nodejs"
 
 depends "deploy-user","~> 0.1.0"
 
+depends "apt", "~> 1.10.0"
 depends "postgresql", "~> 2.1.0"
-depends "rvm", "~> 0.9.1"
 depends "database", "~> 1.3.10"
 depends "nginx", "~> 1.1.5"
 depends "application", "~> 2.0.1"
