@@ -27,6 +27,7 @@ action :before_restart do
     port        new_resource.port
     directory   ::File::join(new_resource.path,'current')
     environment new_resource.environment_name
+    worker_processes new_resource.num_workers
   end
 end
 action :after_restart do
@@ -35,6 +36,11 @@ action :after_restart do
   end
   deploy_monit new_resource.application.name do
     source  "unicorn.monitrc.erb"
+    tests [
+      %{if cpu usage > 95% for 3 cycles then restart},
+      %{if totalmem > #{256 * new_resource.num_workers} Mb then alert  },
+      %{if totalmem > #{384 * new_resource.num_workers} Mb then restart}
+    ]
     action [:install,:monitor]
   end
 end

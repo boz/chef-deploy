@@ -12,8 +12,9 @@ action :install do
     group "root"
     mode  "0600"
     variables({
-      :name    => new_resource.name ,
-      :pidfile => _pidfile          ,
+      :name    => new_resource.name  ,
+      :pidfile => _pidfile           ,
+      :tests   => new_resource.tests ,
     })
     notifies :reload, resources(:service => :monit), :immediately
   end

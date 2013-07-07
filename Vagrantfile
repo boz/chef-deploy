@@ -29,6 +29,8 @@ Vagrant.configure("2") do |config|
   # network interface) by any external networks.
   config.vm.network :private_network, ip: "33.33.33.10"
 
+  config.hostmanager.enabled = false
+
   # Assign this VM to a bridged network, allowing you to connect directly to a
   # network using the host's network device. This makes the VM appear as another
   # physical device on your network.
