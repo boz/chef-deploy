@@ -38,6 +38,7 @@ action :before_restart do
     environment({
       "PORT" => new_resource.port
     })
+    syslog new_resource.syslog
   end
 end
 action :after_restart do

@@ -1,4 +1,12 @@
 action :enable do
+
+  logfile = "/var/log/#{new_resource.name}.log"
+  if new_resource.syslog
+    logline = "2>&1 | tee #{logfile} | logger -t #{new_resource.name}"
+  else
+    logline = ">> #{logfile}"
+  end
+
   template "/etc/init/#{new_resource.name}.conf" do
     cookbook new_resource.cookbook
     source "upstart.conf.erb"
@@ -12,6 +20,8 @@ action :enable do
       :command     => new_resource.command     ,
       :arguments   => new_resource.arguments   ,
       :environment => new_resource.environment ,
+      :logfile     => logfile                  ,
+      :logline     => logline                  ,
     })
     notifies :restart, resources(:deploy_service => new_resource.name)
   end

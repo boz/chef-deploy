@@ -8,3 +8,4 @@ attribute :command     , :kind_of => String
 attribute :arguments   , :kind_of => Array, :default => []
 attribute :environment , :kind_of => Hash , :default => {}
 attribute :cookbook    , :kind_of => String, :default => "deploy"
+attribute :syslog      , :kind_of => [TrueClass,FalseClass,NilClass], :default => false

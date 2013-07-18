@@ -25,10 +25,15 @@ action :before_restart do
   deploy_unicorn new_resource.application.name do
     user        new_resource.user
     port        new_resource.port
+    preload_app new_resource.preload
     directory   ::File::join(new_resource.path,'current')
     environment new_resource.environment_name
     worker_processes new_resource.num_workers
+    syslog new_resource.syslog
   end
+  deploy_rsyslog new_resource.application.name do
+    path ::File.join(new_resource.application.path,"current","log","#{new_resource.environment_name}.log")
+  end if new_resource.syslog
 end
 action :after_restart do
   deploy_nginx new_resource.application.name do

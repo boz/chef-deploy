@@ -13,6 +13,7 @@ node.deploy.applications.each do |app|
       user   node.deploy.username
       vhosts app[:vhosts]
       port   app[:port]
+      syslog app[:syslog]
     end
     deploy_config do
       file "http.json"

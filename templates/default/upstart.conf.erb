@@ -1,7 +1,7 @@
 #!upstart
 
 env USER=<%= @user %>
-env LOGFILE=/var/log/<%= @name %>.log
+env LOGFILE=<%= @logfile %>
 
 <% for k,v in @environment %>
   env <%= "#{k}=#{v}" %>
@@ -22,15 +22,14 @@ script
     --pidfile /var/run/<%= @name %>.pid  \
     --exec <%= @command %>               \
     -- <%= @arguments.join(' ') %>       \
-    >> $LOGFILE
+    <%= @logline %>
 
 end script
 
 pre-start script
-  echo "[`date`] (sys) Starting..." >> $LOGFILE
+  echo "[`date`] (sys) Starting..." <%= @logline %>
 end script
 
 pre-start script
-  echo "[`date`] (sys) Stopping..." >> $LOGFILE
+  echo "[`date`] (sys) Stopping..." <%= @logline %>
 end script
-

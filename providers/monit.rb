@@ -22,7 +22,8 @@ end
 
 action :monitor do
   execute "monit monitor #{new_resource.name}" do
-    retries 5
+    retries     10
+    retry_delay 5
   end
 end
 

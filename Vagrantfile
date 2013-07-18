@@ -78,6 +78,7 @@ Vagrant.configure("2") do |config|
             :cert  => "chef-deploy-rails.com" ,
           }] ,
           :repository => "git://github.com/boz/chef-deploy-webapp-rails-test.git",
+          :syslog     => true,
         },{
           :type       => "nodejs"             ,
           :name       => "chef-deploy-nodejs" ,
@@ -87,7 +88,8 @@ Vagrant.configure("2") do |config|
             :hosts => ["chef-deploy-nodejs.com", "*.chef-deploy-nodejs.com"],
           }],
           :repository => "git://github.com/boz/chef-deploy-webapp-nodejs-test.git",
-          :database   => :redis
+          :database   => :redis,
+          :syslog     => true,
         }],
         :certificates => {
           'chef-deploy-rails.com' => {
@@ -100,13 +102,16 @@ Vagrant.configure("2") do |config|
           },
         }
       },
+      :rsyslog => {
+      },
       :monit => {
         :mailserver => {
           :username => "system@boz.sh",
           :password => ENV['SYSTEM_EMAIL_PASSWORD'],
         },
-        :email => "notifications@boz.sh",
-        :from  => "system@boz.sh",
+        :email   => "notifications@boz.sh",
+        :from    => "system@boz.sh",
+        :logfile => "syslog"
       },
       :postgresql => {
         :password => { :postgres => "TESTONLY" }

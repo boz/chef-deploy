@@ -7,11 +7,13 @@ action :install do
     preload_app       my.preload_app
     worker_processes  my.worker_processes
     before_fork       my.before_fork
+    after_fork        my.after_fork
   end
 
   deploy_service my.name do
     user      my.user
     directory my.directory
+    syslog    my.syslog
     command   "/usr/local/bin/bundle exec unicorn"
     arguments [
       "-E" , my.environment  ,

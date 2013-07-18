@@ -1,6 +1,5 @@
 require_recipe "deploy-user"
 require_recipe "git"
-
 node.nginx.package_name   = "nginx-full"
 node.nginx.install_method = "package"
 include_recipe 'nginx'
@@ -12,4 +11,5 @@ group "ssl-cert" do
 end
 
 require_recipe 'deploy::ssl-cert'
+require_recipe 'deploy::rsyslog'
 require_recipe 'deploy::monit'

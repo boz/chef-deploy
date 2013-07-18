@@ -12,8 +12,15 @@ node.default.monit.fs.fstypes   = %w{ext2 ext3 ext4 xfs}
 node.default.monit.fs.mountopts = "rw"
 
 node.default.monit.period             = 60
+
+# set to "syslog" for syslog logging
+node.default.monit.logfile            = "/var/log/monit.log"
+
 node.default.monit.mailserver.host    = "smtp.gmail.com"
 node.default.monit.mailserver.port    = 587
 node.default.monit.mailserver.using   = "tlsv1"
 node.default.monit.mailserver.timeout = 30
 
+node.default.rsyslog.ssl       = false
+node.default.rsyslog.crt       = "/etc/ssl/certs/rsyslog.crt"
+node.default.rsyslog.statedir  = "/var/spool/rsyslog"

@@ -1,5 +1,5 @@
 set daemon <%= @monit[:period] %>
-set logfile   /var/log/monit.log
+set logfile <%= @monit[:logfile] %>
 set idfile    /var/lib/monit/id
 set statefile /var/lib/monit/state
 
