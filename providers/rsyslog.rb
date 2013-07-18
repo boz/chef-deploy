@@ -6,7 +6,8 @@ action :install do
   end
 
   template "/etc/rsyslog.d/60-#{new_resource.name}.conf" do
-    source "rsyslog-file.conf.erb"
+    source   "rsyslog-file.conf.erb"
+    cookbook "deploy"
     variables({
       :name => new_resource.name,
       :path => new_resource.path
