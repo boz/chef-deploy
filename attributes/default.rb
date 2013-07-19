@@ -24,3 +24,7 @@ node.default.monit.mailserver.timeout = 30
 node.default.rsyslog.ssl       = false
 node.default.rsyslog.crt       = "/etc/ssl/certs/rsyslog.crt"
 node.default.rsyslog.statedir  = "/var/spool/rsyslog"
+
+if node[:ec2]
+  node.default.rsyslog.hostname = node[:ec2][:public_hostname]
+end

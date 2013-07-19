@@ -9,6 +9,15 @@
 #### MODULES ####
 #################
 
+# Must be declared before modules loaded.
+# See http://bugzilla.adiscon.com/show_bug.cgi?id=258#c5
+# note: for no apparent reason at all, @options[:group] yields "adm" (a system group).
+#       yet another random chef bug :-/
+#
+<% if @options[:hostname] %>
+$LocalHostName <%= [@options[:hostname_prefix], @options[:hostname]].compact.join(".") %>
+<% end %>
+
 $ModLoad imuxsock # provides support for local system logging
 $ModLoad imklog   # provides kernel logging support (previously done by rklogd)
 #$ModLoad immark  # provides --MARK-- message capability
@@ -41,10 +50,6 @@ $ActionSendStreamDriverAuthMode x509/name
 *.*  @<%= @options[:remote] %>
 
 <% end  %>
-
-<% if @options[:hostname] %>
-$LocalHostName <%= @options[:hostname] %>
-<% end %>
 
 #
 # Use traditional timestamp format.
