@@ -21,7 +21,7 @@ template "/etc/monit/conf.d/system.conf" do
   owner "root"
   group "root"
   mode  "0600"
-  variables(:fqdn => node[:fqdn])
+  variables(:fqdn => (node.monit[:hostname] || node[:fqdn]))
   notifies :reload, resources(:service => :monit), :immediately
 end
 
