@@ -38,3 +38,7 @@ node.filesystem.each do |_device,attrs|
     path attrs[:mount]
   end
 end
+
+deploy_rsyslog_ignore "monit-ssh-messages" do
+  message "Connection closed by 127.0.0.1 [preauth]"
+end
